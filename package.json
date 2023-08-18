@@ -1,0 +1,30 @@
+{
+  "name": "govuk-holiday-logger",
+  "description": "A brief description of the application's purpose",
+  "private": true,
+  "author": "Government Digital Service",
+  "license": "MIT",
+  "scripts": {
+    "lint": "yarn run lint:js && yarn run lint:scss",
+    "lint:js": "standard 'app/assets/javascripts/**/*.js' 'spec/javascripts/**/*.js'",
+    "lint:scss": "stylelint app/assets/stylesheets/"
+  },
+  "standardx": {
+    "env": {
+      "browser": true
+    }
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-var": 0
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-gds/scss"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0",
+    "stylelint": "^15.10.2",
+    "stylelint-config-gds": "^1.0.0"
+  }
+}

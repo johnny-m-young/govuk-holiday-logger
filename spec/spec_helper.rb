@@ -10,6 +10,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 GovukTest.configure
 
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
   config.expose_dsl_globally = false
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = true

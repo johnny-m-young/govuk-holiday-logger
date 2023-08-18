@@ -6,6 +6,7 @@ ruby "3.2.2"
 gem "rails", "~> 7.0.7"
 
 gem "bootsnap", require: false
+gem "devise"
 gem "govuk_app_config"
 gem "jbuilder"
 gem "sprockets-rails"

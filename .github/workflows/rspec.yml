@@ -1,0 +1,39 @@
+name: RSpec
+
+on:
+  push:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      ref:
+        description: 'The branch, tag or SHA to checkout'
+        required: false
+        type: string
+
+  pull_request:
+
+jobs:
+  run-rspec:
+    runs-on: ubuntu-latest
+    name: Run RSpec
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        repository: jyoung-gds/govuk-holiday-logger
+        ref: ${{ inputs.ref || github.ref }}
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+
+    - name: Setup database
+      run: rake db:test:prepare
+
+    - name: Precompile assets
+      run: rake assets:precompile
+      
+    - name: Run RSpec
+      run: bundle exec rspec

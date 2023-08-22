@@ -1,0 +1,29 @@
+name: Linting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      files:
+        description: 'Files(s) or glob(s) to check'
+        required: false
+        default: "'app/assets/javascripts/**/*.js' 'spec/javascripts/**/*.js'"
+        type: string
+
+  pull_request:
+
+jobs:
+  run-standardx:
+    runs-on: ubuntu-latest
+    name: Run Standardx
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node
+      uses: alphagov/govuk-infrastructure/.github/actions/setup-node@main
+
+    - name: Run Standardx
+      run: yarn run standard ${{ inputs.files }}

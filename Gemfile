@@ -8,7 +8,9 @@ gem "rails", "~> 7.0.7"
 gem "bootsnap", require: false
 gem "devise"
 gem "govuk_app_config"
+gem "govuk_publishing_components"
 gem "jbuilder"
+gem "sassc-rails"
 gem "sprockets-rails"
 gem "sqlite3", "~> 1.4"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

@@ -107,7 +107,6 @@ GEM
     globalid (1.1.0)
       activesupport (>= 5.0)
     google-protobuf (3.24.0-arm64-darwin)
-    google-protobuf (3.24.0-x86_64-linux)
     googleapis-common-protos-types (1.8.0)
       google-protobuf (~> 3.18)
     govuk_app_config (9.0.4)
@@ -175,8 +174,6 @@ GEM
       net-protocol
     nio4r (2.5.9)
     nokogiri (1.15.4-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     opentelemetry-api (1.2.2)
     opentelemetry-common (0.19.7)
@@ -513,7 +510,6 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.6.3-arm64-darwin)
-    sqlite3 (1.6.3-x86_64-linux)
     statsd-ruby (1.5.0)
     thor (1.2.2)
     tilt (2.2.0)
@@ -539,7 +535,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
-  x86_64-linux
 
 DEPENDENCIES
   bootsnap

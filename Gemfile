@@ -6,6 +6,7 @@ ruby "3.2.2"
 gem "rails", "~> 7.0.7"
 
 gem "bootsnap", require: false
+gem "devise"
 gem "govuk_app_config"
 gem "jbuilder"
 gem "sprockets-rails"
@@ -21,6 +22,7 @@ group :test do
 end
 
 group :development, :test do
+  gem "factory_bot_rails"
   gem "govuk_test"
   gem "pry-byebug"
   gem "rspec-rails"

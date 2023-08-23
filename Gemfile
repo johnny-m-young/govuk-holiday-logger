@@ -20,6 +20,7 @@ group :development do
 end
 
 group :test do
+  gem "buildkite-test_collector"
   gem "simplecov"
 end
 

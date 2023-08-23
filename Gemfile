@@ -28,6 +28,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "govuk_test"
   gem "pry-byebug"
+  gem "rails-controller-testing"
   gem "rspec-rails"
   gem "rubocop-govuk"
 end

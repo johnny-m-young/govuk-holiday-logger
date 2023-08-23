@@ -1,9 +1,7 @@
-<h1>Root#index</h1>
-<p>Find me in app/views/root/index.html.erb</p>
-
 <% if current_user %>
-  <h1> <%= "#{current_user.given_name} #{current_user.family_name}'s Dashboard" %> </h1>
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete%>
-<% else %>
-  <%= link_to "Sign in", new_user_session_path %>
+  <%= render "govuk_publishing_components/components/title", {
+    title: "#{current_user.given_name} #{current_user.family_name}'s Dashboard",
+    average_title_length: "long",
+    margin_top: 0
+  } %>
 <% end %>

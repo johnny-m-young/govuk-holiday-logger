@@ -16,7 +16,7 @@ end
 
 def when_i_go_to_the_sign_in_page
   visit new_user_session_path
-  expect(page).to have_content("Sign in")
+  expect(page).to have_content("Sign in to GOV.UK Holiday Logger")
 end
 
 def and_i_fill_in_the_sign_in_form

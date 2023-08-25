@@ -4,4 +4,9 @@
     average_title_length: "long",
     margin_top: 0
   } %>
+
+  <%= render "govuk_publishing_components/components/panel", {
+    prepend: "Annual leave balance",
+    title: "#{current_user.annual_leave_remaining} days"
+  } %>
 <% end %>

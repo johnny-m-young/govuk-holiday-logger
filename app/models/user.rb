@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :line_reports, class_name: "User", foreign_key: "line_manager_id"
+  belongs_to :line_manager, class_name: "User", optional: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

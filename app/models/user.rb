@@ -11,4 +11,8 @@ class User < ApplicationRecord
   validates :given_name, presence: true
   validates :family_name, presence: true
   validates :password, length: { minimum: 8, message: "must be at least 8 characters long" }
+
+  def is_line_manager?
+    line_reports.any?
+  end
 end

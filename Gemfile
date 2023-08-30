@@ -6,6 +6,7 @@ ruby "3.2.2"
 gem "rails", "~> 7.0.7"
 
 gem "bootsnap", require: false
+gem "business"
 gem "devise"
 gem "govuk_app_config"
 gem "govuk_publishing_components"

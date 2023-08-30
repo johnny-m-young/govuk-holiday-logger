@@ -1,0 +1,20 @@
+<%= render "govuk_publishing_components/components/title", {
+    title: "#{current_user.given_name} #{current_user.family_name}'s Line Reports",
+    average_title_length: "long",
+    margin_top: 0
+  } %>
+
+<%= render "govuk_publishing_components/components/table", {
+  head: [
+    {
+      text: "Line Report"
+    },
+    {
+      text: "Status"
+    },
+    {
+      text: ""
+    }
+  ],
+  rows: line_reports_table_rows(@line_reports)
+} %>

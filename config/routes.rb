@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/healthcheck/ready", to: GovukHealthcheck.rack_response
 
   resource :line_reports, only: [:show]
+  resource :annual_leave_requests, only: [:new]
 
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 end

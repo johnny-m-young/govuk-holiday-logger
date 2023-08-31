@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resource :line_reports, only: [:show]
   resource :annual_leave_requests, only: [:new]
+  get "/annual_leave_requests/check", to: "annual_leave_requests#check"
 
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 end

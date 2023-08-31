@@ -1,0 +1,44 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: "javascript:window.history.back()"
+    } %>
+
+    <%= render "govuk_publishing_components/components/title", {
+      title: "Check your dates before requesting annual leave",
+      average_title_length: "long",
+    } %>
+
+    <%= render "govuk_publishing_components/components/summary_list", {
+      items: [
+        {
+          field: "Date from",
+          value: @date_from.to_fs(:rfc822),
+          edit: {
+            href: "javascript:window.history.back()"
+          }
+        },
+        {
+          field: "Date to",
+          value: @date_to.to_fs(:rfc822),
+          edit: {
+            href: "javascript:window.history.back()"
+          }
+        },
+        {
+          field: "Total annual leave",
+          value: "#{@days_required} days"
+        }
+      ]
+    } %>
+
+    <%= form_with url: "/annual_leave_requests", method: :post do %>
+      <%= hidden_field(:annual_leave_request, :date_from, value: @date_from) %>
+      <%= hidden_field(:annual_leave_request, :date_to, value: @date_to) %>
+      <%= hidden_field(:annual_leave_request, :days_required, value: @days_required) %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Send request"
+      } %>
+    <% end %>
+  </div>
+</div>

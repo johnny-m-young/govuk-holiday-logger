@@ -9,6 +9,14 @@ class AnnualLeaveRequestsController < ApplicationController
     @days_required = WorkingDaysCalculator.new(@date_from, @date_to).number_of_working_days
   end
 
+  def create
+    @annual_leave_request = current_user.annual_leave_requests.build(annual_leave_request_params)
+
+    if @annual_leave_request.save
+      redirect_to root_path
+    end
+  end
+
 private
 
   def format_date_params(date)
@@ -17,5 +25,9 @@ private
 
   def check_leave_request_params
     params.require(:annual_leave_request).permit(date_from: %i[day month year], date_to: %i[day month year])
+  end
+
+  def annual_leave_request_params
+    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required)
   end
 end

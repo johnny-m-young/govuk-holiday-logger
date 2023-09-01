@@ -1,0 +1,28 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/panel", {
+      title: "Request sent",
+      description: "You can now view the request status on your dashboard"
+    } %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "What happens next?",
+      padding: true
+    } %>
+
+    <p class="govuk-body"> 
+      We've sent your request via email to your line manager 
+      <%= "(#{current_user.line_manager})" if current_user.line_manager %> and 
+      delivery manager 
+      <% # TODO: Interpolate delivery manager's name %>
+      for approval.
+    </p>
+
+    <p class="govuk-body">
+      Your dashboard will be updated and you will receive an email when they 
+      have responded to your request.
+    </p>
+
+    <%= link_to "Go to your dashboard", root_path, html_options = { class: "govuk-link" }%>
+  </div>
+</div>

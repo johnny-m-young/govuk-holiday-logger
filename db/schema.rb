@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_25_123530) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_30_095326) do
+  create_table "annual_leave_requests", force: :cascade do |t|
+    t.string "status", default: "pending"
+    t.date "date_from"
+    t.date "date_to"
+    t.decimal "days_required"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_annual_leave_requests_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "given_name", null: false
     t.string "family_name", null: false
@@ -29,5 +40,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_123530) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "annual_leave_requests", "users"
   add_foreign_key "users", "users", column: "line_manager_id"
 end

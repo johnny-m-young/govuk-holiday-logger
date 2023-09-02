@@ -147,6 +147,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.6.3)
+    jwt (2.7.1)
     kramdown (2.4.0)
       rexml
     language_server-protocol (3.17.0.3)
@@ -181,6 +182,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
+    notifications-ruby-client (5.4.0)
+      jwt (>= 1.5, < 3)
     opentelemetry-api (1.2.2)
     opentelemetry-common (0.19.7)
       opentelemetry-api (~> 1.0)
@@ -558,6 +561,7 @@ DEPENDENCIES
   govuk_publishing_components
   govuk_test
   jbuilder
+  notifications-ruby-client
   pry-byebug
   rails (~> 7.0.7)
   rails-controller-testing

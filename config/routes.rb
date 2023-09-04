@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
   get "/healthcheck/ready", to: GovukHealthcheck.rack_response
 
-  resource :line_reports, only: [:show]
+  resources :line_reports, only: [:index]
   resources :annual_leave_requests, only: %i[new create]
   get "/annual_leave_requests/check", to: "annual_leave_requests#check", as: "check_annual_leave_request"
   get "/annual_leave_requests/confirmation", to: "annual_leave_requests#confirm", as: "annual_leave_request_confirmation"

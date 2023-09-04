@@ -16,4 +16,9 @@
   rel: "external"
 } %>
 
+<div class="govuk-!-margin-top-6">
+  <% @annual_leave_requests.each do |annual_leave_request| %>
+    <%= render "annual_leave_request_card", annual_leave_request: %>
+  <% end %>
+<div>
 

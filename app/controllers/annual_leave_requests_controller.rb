@@ -13,7 +13,7 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = current_user.annual_leave_requests.build(annual_leave_request_params)
 
     if @annual_leave_request.save
-      redirect_to annual_leave_requests_confirmation_path
+      redirect_to annual_leave_request_confirmation_path
     else
       render "new"
     end

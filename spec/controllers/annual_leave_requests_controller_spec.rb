@@ -13,7 +13,7 @@ RSpec.describe AnnualLeaveRequestsController do
         date_to: valid_request.date_to,
         days_required: valid_request.days_required,
       } }
-      expect(response).to redirect_to(annual_leave_requests_confirmation_path)
+      expect(response).to redirect_to(annual_leave_request_confirmation_path)
     end
 
     it "redirects to new page if annual leave request invalid" do

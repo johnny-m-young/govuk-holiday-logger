@@ -17,7 +17,7 @@
       average_title_length: "long",
     } %>
 
-    <%= form_with url: annual_leave_requests_check_path, method: :get do %>
+    <%= form_with url: check_annual_leave_request_path, method: :get do %>
       <%= render "govuk_publishing_components/components/label", {
         text: "Date from:",
         html_for: "annual_leave_request[date_from]",

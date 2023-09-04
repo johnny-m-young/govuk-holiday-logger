@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "line_reports/show", type: :view do
+RSpec.describe "line_reports/index", type: :view do
   let(:line_manager) { create(:user) }
   let(:line_report) { create(:user, line_manager_id: line_manager.id) }
 

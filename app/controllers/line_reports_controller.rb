@@ -1,7 +1,7 @@
 class LineReportsController < ApplicationController
   before_action :redirect_if_user_not_line_manager
 
-  def show
+  def index
     @line_reports = current_user.line_reports
   end
 

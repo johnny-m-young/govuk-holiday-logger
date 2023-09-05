@@ -1,7 +1,13 @@
 require "spec_helper"
 
 RSpec.feature "User can request annual leave" do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, line_manager_id: line_manager.id) }
+  let(:line_manager) { create(:user, email: "line_manager@digital.cabinet-office.gov.uk") }
+
+  setup do
+    notify_test_client = Notifications::Client.new(ENV["NOTIFY_TEST_API_KEY"])
+    allow_any_instance_of(EmailsHelper).to receive(:client).and_return(notify_test_client) # rubocop:disable RSpec/AnyInstance
+  end
 
   scenario do
     given_i_am_signed_in

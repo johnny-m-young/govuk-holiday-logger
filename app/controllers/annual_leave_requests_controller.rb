@@ -32,11 +32,13 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
-      redirect_to root_path
+      redirect_to confirm_annual_leave_request_approval_path
     else
       render "approve"
     end
   end
+
+  def confirm_approval; end
 
 private
 

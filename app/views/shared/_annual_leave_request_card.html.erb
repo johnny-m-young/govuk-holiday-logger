@@ -4,22 +4,7 @@
       text: "Annual leave request"
     } %>
     <ul class="govuk-summary-card__actions">
-      <li class="govuk-summary-card__action"> <a class="govuk-link" href="#">
-          Edit
-          <span class="govuk-visually-hidden">
-            <%= annual_leave_request.status %> annual leave request from 
-            <%= annual_leave_request.date_from %> to <%= annual_leave_request.date_to %>
-          </span>
-        </a>
-      </li>
-      <li class="govuk-summary-card__action"> <a class="govuk-link" href="#">
-          Withdraw
-          <span class="govuk-visually-hidden">
-            <%= annual_leave_request.status %> annual leave request from 
-            <%= annual_leave_request.date_from %> to <%= annual_leave_request.date_to %>
-          </span>
-        </a>
-      </li>
+      <%= render card_links, annual_leave_request: %>
     </ul>
   </div>
   <div class="govuk-summary-card__content">

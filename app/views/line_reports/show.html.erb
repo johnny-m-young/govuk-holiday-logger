@@ -9,7 +9,7 @@
 
 <% if @annual_leave_requests.any? %>
   <% @annual_leave_requests.each do |annual_leave_request| %>
-    <%= render "annual_leave_request_card", annual_leave_request: %>
+    <%= render "shared/annual_leave_request_card", card_links: "line_reports/approve_or_deny_links", annual_leave_request: %>
   <% end %>
 <% else %>
   <p class="govuk-body"> No pending annual leave requests. </p>

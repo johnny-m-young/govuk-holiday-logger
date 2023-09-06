@@ -18,7 +18,7 @@
 
 <div class="govuk-!-margin-top-6">
   <% @annual_leave_requests.each do |annual_leave_request| %>
-    <%= render "annual_leave_request_card", annual_leave_request: %>
+    <%= render "shared/annual_leave_request_card", card_links: "root/edit_or_withdraw_links", annual_leave_request: %>
   <% end %>
 <div>
 

@@ -5,6 +5,7 @@ class AnnualLeaveRequest < ApplicationRecord
   validates :date_from, comparison: { less_than: :date_to, message: "must be before Date to" }
   validates :date_from, :date_to, comparison: { greater_than: Time.zone.today, message: "must be in the future" }
   validate :user_has_enough_annual_leave_remaining
+  validates :confirm_approval, acceptance: { accept: "confirmed" }
 
 private
 

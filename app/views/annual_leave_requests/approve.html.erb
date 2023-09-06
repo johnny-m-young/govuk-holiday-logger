@@ -9,13 +9,18 @@
       average_title_length: "long",
     } %>
 
-    <%= form_with url: "#" do %>
+    <%= form_with url: annual_leave_request_update_status_path(@annual_leave_request), method: :patch do |f| %>
+      <%= hidden_field(:annual_leave_request, :status, value: "approved") %>
+      <%= hidden_field(:annual_leave_request, :confirm_approval, value: "unconfirmed") %>
       <%= render "govuk_publishing_components/components/checkboxes", {
         name: "annual_leave_request[confirm_approval]",
+        heading: "Confirm you approval",
+        visually_hide_heading: true,
         hint_text: "Check the box below to confirm your approval",
         items: [
           {
-            label: "I confirm my approval"
+            label: "I confirm my approval",
+            value: "confirmed"
           }
         ]
       } %>

@@ -22,6 +22,11 @@ class AnnualLeaveRequestsController < ApplicationController
 
   def confirm; end
 
+  def approve
+    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
+    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+  end
+
 private
 
   def format_date_params(date)

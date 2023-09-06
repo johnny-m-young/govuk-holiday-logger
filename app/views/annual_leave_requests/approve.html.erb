@@ -9,6 +9,14 @@
       average_title_length: "long",
     } %>
 
+    <% if @annual_leave_request.errors.any? %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: "There was a problem with your approval",
+        description: "Fix the following issue(s) and re-submit your response",
+        items: error_messages_for(@annual_leave_request)
+      } %>
+    <% end %>
+
     <%= form_with url: annual_leave_request_update_status_path(@annual_leave_request), method: :patch do |f| %>
       <%= hidden_field(:annual_leave_request, :status, value: "approved") %>
       <%= hidden_field(:annual_leave_request, :confirm_approval, value: "unconfirmed") %>
@@ -17,6 +25,7 @@
         heading: "Confirm you approval",
         visually_hide_heading: true,
         hint_text: "Check the box below to confirm your approval",
+        error: error_message_for_input(@annual_leave_request.errors, :confirm_approval),
         items: [
           {
             label: "I confirm my approval",

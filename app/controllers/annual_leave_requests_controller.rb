@@ -32,6 +32,7 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
+      helpers.send_approved_request_email(@annual_leave_request)
       redirect_to confirm_annual_leave_request_approval_path
     else
       render "approve"

@@ -4,6 +4,14 @@
       href: "javascript:window.history.back()"
     } %>
 
+    <% if @annual_leave_request.errors.any? %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: "There was a problem with your approval",
+        description: "Fix the following issue(s) and re-submit your request",
+        items: error_messages_for(@annual_leave_request)
+      } %>
+    <% end %>
+
     <%= render "govuk_publishing_components/components/title", {
       title: "Approve annual leave request",
       average_title_length: "long",
@@ -17,6 +25,7 @@
         heading: "Confirm you approval",
         visually_hide_heading: true,
         hint_text: "Check the box below to confirm your approval",
+        error: error_message_for_input(@annual_leave_request.errors, :confirm_approval),
         items: [
           {
             label: "I confirm that I have reviewed this annual leave request and want to approve it",

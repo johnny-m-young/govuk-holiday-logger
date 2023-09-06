@@ -27,6 +27,17 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
   end
 
+  def update_status
+    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
+    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+
+    if @annual_leave_request.update(annual_leave_request_params)
+      redirect_to root_path
+    else
+      render "approve"
+    end
+  end
+
 private
 
   def format_date_params(date)
@@ -38,6 +49,6 @@ private
   end
 
   def annual_leave_request_params
-    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required)
+    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval)
   end
 end

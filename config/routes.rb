@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get "/healthcheck/ready", to: GovukHealthcheck.rack_response
 
   resources :line_reports, only: %i[index show]
+  resources :annual_leave_requests, only: %i[new create] do
+    get "approve"
+  end
   get "/annual_leave_requests/check", to: "annual_leave_requests#check", as: "check_annual_leave_request"
   get "/annual_leave_requests/confirmation", to: "annual_leave_requests#confirm", as: "annual_leave_request_confirmation"
 

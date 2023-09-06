@@ -1,0 +1,28 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: "javascript:window.history.back()"
+    } %>
+
+    <%= render "govuk_publishing_components/components/title", {
+      title: "Approve annual leave request",
+      average_title_length: "long",
+    } %>
+
+    <%= form_with url: "#" do %>
+      <%= render "govuk_publishing_components/components/checkboxes", {
+        name: "annual_leave_request[confirm_approval]",
+        hint_text: "Check the box below to confirm your approval",
+        items: [
+          {
+            label: "I confirm that I have reviewed this annual leave request and want to approve it"
+          }
+        ]
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Approve leave"
+      } %>
+    <% end %>
+  </div>
+</div>

@@ -38,13 +38,15 @@ class AnnualLeaveRequestsController < ApplicationController
 
     if @annual_leave_request.update(annual_leave_request_params)
       helpers.send_approved_request_email(@annual_leave_request)
-      redirect_to confirm_annual_leave_request_approval_path
+      redirect_to_status_update_confirmation_page
     else
       render "approve"
     end
   end
 
   def confirm_approval; end
+
+  def confirm_denial; end
 
 private
 
@@ -58,5 +60,14 @@ private
 
   def annual_leave_request_params
     params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval)
+  end
+
+  def redirect_to_status_update_confirmation_page
+    case annual_leave_request_params[:status]
+    when "approved"
+      redirect_to confirm_annual_leave_request_approval_path
+    when "denied"
+      redirect_to confirm_annual_leave_request_denial_path
+    end
   end
 end

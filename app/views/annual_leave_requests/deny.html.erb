@@ -9,13 +9,22 @@
       average_title_length: "long",
     } %>
 
+    <% if @annual_leave_request.errors.any? %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: "There was a problem with your denial",
+        description: "Fix the following issue(s) and re-submit your response",
+        items: error_messages_for(@annual_leave_request)
+      } %>
+    <% end %>
+
     <%= form_with url: annual_leave_request_update_status_path(@annual_leave_request), method: :patch do |f| %>
       <%= hidden_field(:annual_leave_request, :status, value: "denied") %>
       <%= render "govuk_publishing_components/components/input", {
         label: {
           text: "Please write the reason for denying this annual leave in the box below."
         },
-        name: "annual_leave_request[denial_reason]"
+        name: "annual_leave_request[denial_reason]",
+        error_message: error_message_for_input(@annual_leave_request.errors, :denial_reason),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

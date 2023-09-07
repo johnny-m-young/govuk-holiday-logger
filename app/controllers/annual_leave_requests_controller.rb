@@ -23,13 +23,13 @@ class AnnualLeaveRequestsController < ApplicationController
   def confirm; end
 
   def approve
-    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
-    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+    @annual_leave_request = AnnualLeaveRequest.find(params[:annual_leave_request_id])
+    redirect_to root_path if current_user != @annual_leave_request.user.line_manager
   end
 
   def update_status
-    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
-    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+    @annual_leave_request = AnnualLeaveRequest.find(params[:annual_leave_request_id])
+    redirect_to root_path if current_user != @annual_leave_request.user.line_manager
 
     if @annual_leave_request.update(annual_leave_request_params)
       helpers.send_approved_request_email(@annual_leave_request)

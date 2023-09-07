@@ -59,7 +59,7 @@ private
   end
 
   def annual_leave_request_params
-    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval)
+    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval, :denial_reason)
   end
 
   def redirect_to_status_update_confirmation_page

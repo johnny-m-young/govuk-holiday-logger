@@ -1,0 +1,27 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: "javascript:window.history.back()"
+    } %>
+
+    <%= render "govuk_publishing_components/components/title", {
+      title: "Deny annual leave request",
+      average_title_length: "long",
+    } %>
+
+    <%= form_with url: annual_leave_request_update_status_path(@annual_leave_request), method: :patch do |f| %>
+      <%= hidden_field(:annual_leave_request, :status, value: "denied") %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Please write the reason for denying this annual leave in the box below."
+        },
+        name: "annual_leave_request[denial_reason]"
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Deny leave",
+        destructive: true
+      } %>
+    <% end %>
+  </div>
+</div>

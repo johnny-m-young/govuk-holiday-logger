@@ -27,6 +27,11 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
   end
 
+  def deny
+    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
+    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+  end
+
   def update_status
     line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])

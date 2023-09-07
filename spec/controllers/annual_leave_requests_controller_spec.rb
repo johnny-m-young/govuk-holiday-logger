@@ -52,15 +52,28 @@ RSpec.describe AnnualLeaveRequestsController do
       sign_in line_manager
     end
 
-    it "renders the approve page if status update is unsuccessful" do
+    it "renders the approve page if a status update to 'approved' is unsuccessful" do
       patch :update_status, params: {
         annual_leave_request_id: leave_request.id,
         annual_leave_request: {
           confirm_approval: "unconfirmed",
+          status: "approved",
         },
       }
 
       expect(response).to render_template(:approve)
+    end
+
+    it "renders the deny page if a status update to 'denied' is unsuccessful" do
+      patch :update_status, params: {
+        annual_leave_request_id: leave_request.id,
+        annual_leave_request: {
+          denial_reason: "",
+          status: "denied",
+        },
+      }
+
+      expect(response).to render_template(:deny)
     end
 
     it "sends an email to the line report when status is updated to approved" do

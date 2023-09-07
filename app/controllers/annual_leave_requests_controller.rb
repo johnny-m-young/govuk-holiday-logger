@@ -40,7 +40,8 @@ class AnnualLeaveRequestsController < ApplicationController
       helpers.send_approved_request_email(@annual_leave_request)
       redirect_to_status_update_confirmation_page
     else
-      render "approve"
+      render "approve" if annual_leave_request_params[:status] == "approved"
+      render "deny" if annual_leave_request_params[:status] == "denied"
     end
   end
 

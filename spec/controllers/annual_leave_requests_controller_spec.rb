@@ -5,7 +5,7 @@ RSpec.describe AnnualLeaveRequestsController do
 
   describe "POST create" do
     setup do
-      allow(Notifications::Client).to receive(:new).and_return(notify_fake_client)
+      allow(controller).to receive(:notify_client).and_return(notify_fake_client)
       sign_in user
     end
 
@@ -48,7 +48,7 @@ RSpec.describe AnnualLeaveRequestsController do
     let(:leave_request) { create(:annual_leave_request, user_id: user.id) }
 
     setup do
-      allow(Notifications::Client).to receive(:new).and_return(notify_fake_client)
+      allow(controller).to receive(:notify_client).and_return(notify_fake_client)
       sign_in line_manager
     end
 

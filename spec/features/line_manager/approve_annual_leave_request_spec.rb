@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.feature "Line manager can approve an annual leave request" do
   setup do
     notify_test_client = Notifications::Client.new(ENV["NOTIFY_TEST_API_KEY"])
-    allow_any_instance_of(EmailsHelper).to receive(:client).and_return(notify_test_client) # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(AnnualLeaveRequestsController).to receive(:notify_client).and_return(notify_test_client) # rubocop:disable RSpec/AnyInstance
   end
 
   scenario do

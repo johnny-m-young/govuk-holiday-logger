@@ -11,7 +11,7 @@ module LineReportsHelper
           text: line_report_status(line_report),
         },
         {
-          text: "Manage requests",
+          text: sanitize(link_to("Manage requests", line_report_path(line_report), { class: "govuk-link" })),
         },
       ]
     end

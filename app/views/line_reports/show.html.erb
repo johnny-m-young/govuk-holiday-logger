@@ -1,0 +1,17 @@
+<%= render "govuk_publishing_components/components/back_link", {
+  href: "javascript:window.history.back()"
+} %>
+
+<%= render "govuk_publishing_components/components/title", {
+  title: "#{@line_report.given_name} #{@line_report.family_name}'s Requests",
+  average_title_length: "long",
+} %>
+
+<% if @annual_leave_requests.any? %>
+  <% @annual_leave_requests.each do |annual_leave_request| %>
+    <%= render "shared/annual_leave_request_card", card_links: "line_reports/approve_or_deny_links", annual_leave_request: %>
+  <% end %>
+<% else %>
+  <p class="govuk-body"> No pending annual leave requests. </p>
+<% end %>
+

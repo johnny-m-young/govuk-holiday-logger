@@ -91,11 +91,36 @@ RSpec.describe AnnualLeaveRequestsController do
       patch :update_status, params: {
         annual_leave_request_id: leave_request.id,
         annual_leave_request: {
+          status: "approved",
           confirm_approval: "confirmed",
         },
       }
 
       expect(notify_fake_client).to have_received(:send_email).with(approved_request_email_hash)
+    end
+
+    it "sends an email to the line report when status is updated to 'denied'" do
+      patch :update_status, params: {
+        annual_leave_request_id: leave_request.id,
+        annual_leave_request: {
+          status: "denied",
+          denial_reason: "some valid reason",
+        },
+      }
+      leave_request.reload
+      denied_request_email_hash = {
+        email_address: user.email,
+        template_id: "ec9035df-9c98-4e0e-8826-47768c311745",
+        personalisation: {
+          line_manager_name: "#{line_manager.given_name} #{line_manager.family_name}",
+          name: "#{user.given_name} #{user.family_name}",
+          date_from: leave_request.date_from.to_fs(:rfc822),
+          date_to: leave_request.date_to.to_fs(:rfc822),
+          denial_reason: leave_request.denial_reason,
+        },
+      }
+
+      expect(notify_fake_client).to have_received(:send_email).with(denied_request_email_hash)
     end
   end
 end

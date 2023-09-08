@@ -15,7 +15,7 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = current_user.annual_leave_requests.build(annual_leave_request_params)
 
     if @annual_leave_request.save
-      notify_client.send_email(new_request_email_hash)
+      @email_response_notification = notify_client.send_email(new_request_email_hash)
       redirect_to annual_leave_request_confirmation_path
     else
       render "new"
@@ -39,7 +39,7 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
-      notify_client.send_email(status_update.email_hash)
+      @email_response_notification = notify_client.send_email(status_update.email_hash)
       redirect_to status_update.confirmation_page_path
     else
       render status_update.action

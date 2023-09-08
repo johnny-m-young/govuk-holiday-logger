@@ -37,8 +37,8 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
-      send_status_update_email
-      redirect_to_status_update_confirmation_page
+      helpers.send_status_updated_email(@annual_leave_request)
+      redirect_to status_update_confirmation_page
     else
       render "approve" if annual_leave_request_params[:status] == "approved"
       render "deny" if annual_leave_request_params[:status] == "denied"
@@ -63,21 +63,12 @@ private
     params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval, :denial_reason)
   end
 
-  def send_status_update_email
+  def status_update_confirmation_page
     case annual_leave_request_params[:status]
     when "approved"
-      helpers.send_approved_request_email(@annual_leave_request)
+      confirm_annual_leave_request_approval_path
     when "denied"
-      helpers.send_denied_request_email(@annual_leave_request)
-    end
-  end
-
-  def redirect_to_status_update_confirmation_page
-    case annual_leave_request_params[:status]
-    when "approved"
-      redirect_to confirm_annual_leave_request_approval_path
-    when "denied"
-      redirect_to confirm_annual_leave_request_denial_path
+      confirm_annual_leave_request_denial_path
     end
   end
 end

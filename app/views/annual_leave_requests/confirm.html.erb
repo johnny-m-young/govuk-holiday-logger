@@ -12,7 +12,7 @@
 
     <p class="govuk-body"> 
       We've sent your request via email to your line manager 
-      <%= "(#{current_user.line_manager})" if current_user.line_manager %> and 
+      <%= "(#{current_user.line_manager.given_name} #{current_user.line_manager.family_name})" if current_user.line_manager %> and 
       delivery manager 
       <% # TODO: Interpolate delivery manager's name %>
       for approval.

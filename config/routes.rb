@@ -10,10 +10,12 @@ Rails.application.routes.draw do
   resources :annual_leave_requests, only: %i[new create] do
     get "approve"
     patch "update_status"
+    get "deny"
   end
   get "/annual_leave_requests/check", to: "annual_leave_requests#check", as: "check_annual_leave_request"
   get "/annual_leave_requests/confirmation", to: "annual_leave_requests#confirm", as: "annual_leave_request_confirmation"
   get "/annual_leave_requests/approval_confirmation", to: "annual_leave_requests#confirm_approval", as: "confirm_annual_leave_request_approval"
+  get "/annual_leave_requests/denial_confirmation", to: "annual_leave_requests#confirm_denial", as: "confirm_annual_leave_request_denial"
 
   mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 end

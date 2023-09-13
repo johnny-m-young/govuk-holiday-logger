@@ -27,19 +27,27 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
   end
 
+  def deny
+    line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
+    @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
+  end
+
   def update_status
     line_reports_leave_requests = AnnualLeaveRequest.where(user: current_user.line_reports)
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
-      helpers.send_approved_request_email(@annual_leave_request)
-      redirect_to confirm_annual_leave_request_approval_path
+      helpers.send_status_updated_email(@annual_leave_request)
+      redirect_to status_update_confirmation_page
     else
-      render "approve"
+      render "approve" if annual_leave_request_params[:status] == "approved"
+      render "deny" if annual_leave_request_params[:status] == "denied"
     end
   end
 
   def confirm_approval; end
+
+  def confirm_denial; end
 
 private
 
@@ -52,6 +60,15 @@ private
   end
 
   def annual_leave_request_params
-    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval)
+    params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval, :denial_reason)
+  end
+
+  def status_update_confirmation_page
+    case annual_leave_request_params[:status]
+    when "approved"
+      confirm_annual_leave_request_approval_path
+    when "denied"
+      confirm_annual_leave_request_denial_path
+    end
   end
 end

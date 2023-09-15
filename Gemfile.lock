@@ -379,6 +379,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
+    pg (1.5.4)
     plek (5.0.0)
     prometheus_exporter (2.0.8)
       webrick
@@ -562,6 +563,7 @@ DEPENDENCIES
   govuk_test
   jbuilder
   notifications-ruby-client
+  pg
   pry-byebug
   rails (~> 7.0.7)
   rails-controller-testing

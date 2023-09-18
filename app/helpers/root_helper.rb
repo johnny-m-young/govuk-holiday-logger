@@ -2,7 +2,7 @@ module RootHelper
   def formatted_status(status)
     case status
     when "pending"
-      sanitize("<strong class='govuk-tag govuk-tag--yellow'> #{status} </strong>")
+      sanitize("<strong class='govuk'> #{status} </strong>")    
     when "approved"
       sanitize("<strong class='govuk-tag govuk-tag--green'> #{status} </strong>")
     when "withdrawn", "denied"

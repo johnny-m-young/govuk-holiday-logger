@@ -1,27 +1,17 @@
 RSpec.describe AnnualLeaveRequestsController do
   let(:user) { create(:user, line_manager_id: line_manager.id) }
+  let(:user_full_name) { "#{user.given_name} #{user.family_name}" }
   let(:line_manager) { create(:user, email: "line_manager@digital.cabinet-office.gov.uk") }
-  let(:notify_fake_client) { instance_double(Notifications::Client, send_email: "FakeNotificationResponse") }
+  let(:notify_test_client) { Notifications::Client.new(ENV["NOTIFY_TEST_API_KEY"]) }
 
   describe "POST create" do
     setup do
-      allow(Notifications::Client).to receive(:new).and_return(notify_fake_client)
+      allow(controller).to receive(:notify_client).and_return(notify_test_client)
       sign_in user
     end
 
     it "emails line manager and redirects to confirmation page if annual leave request valid" do
       valid_request = build(:annual_leave_request, user_id: user.id)
-      new_request_email_hash = {
-        email_address: line_manager.email,
-        template_id: "1587d50b-c12e-4698-b10e-cf414de26f36",
-        personalisation: {
-          line_manager_name: "#{line_manager.given_name} #{line_manager.family_name}",
-          name: "#{user.given_name} #{user.family_name}",
-          date_from: valid_request.date_from.to_fs(:rfc822),
-          date_to: valid_request.date_to.to_fs(:rfc822),
-          days_required: valid_request.days_required,
-        },
-      }
 
       post :create, params: { annual_leave_request: {
         date_from: valid_request.date_from,
@@ -29,7 +19,11 @@ RSpec.describe AnnualLeaveRequestsController do
         days_required: valid_request.days_required,
       } }
 
-      expect(notify_fake_client).to have_received(:send_email).with(new_request_email_hash)
+      email_response_notification = assigns(:email_response_notification)
+      email_response = notify_test_client.get_notification(email_response_notification.id)
+
+      expect(email_response.email_address).to eq(line_manager.email)
+      expect(email_response.subject).to eq("GOV.UK Holiday Logger – #{user_full_name} – New Annual Leave Request")
       expect(response).to redirect_to(annual_leave_request_confirmation_path)
     end
 
@@ -48,7 +42,7 @@ RSpec.describe AnnualLeaveRequestsController do
     let(:leave_request) { create(:annual_leave_request, user_id: user.id) }
 
     setup do
-      allow(Notifications::Client).to receive(:new).and_return(notify_fake_client)
+      allow(controller).to receive(:notify_client).and_return(notify_test_client)
       sign_in line_manager
     end
 
@@ -76,18 +70,7 @@ RSpec.describe AnnualLeaveRequestsController do
       expect(response).to render_template(:deny)
     end
 
-    it "sends an email to the line report when status is updated to approved" do
-      approved_request_email_hash = {
-        email_address: user.email,
-        template_id: "34542d49-8b91-412c-9393-c186a04a7d1c",
-        personalisation: {
-          line_manager_name: "#{line_manager.given_name} #{line_manager.family_name}",
-          name: "#{user.given_name} #{user.family_name}",
-          date_from: leave_request.date_from.to_fs(:rfc822),
-          date_to: leave_request.date_to.to_fs(:rfc822),
-        },
-      }
-
+    it "sends an email to the line report and redirects to confirmatioon page when status is updated to 'approved'" do
       patch :update_status, params: {
         annual_leave_request_id: leave_request.id,
         annual_leave_request: {
@@ -96,10 +79,15 @@ RSpec.describe AnnualLeaveRequestsController do
         },
       }
 
-      expect(notify_fake_client).to have_received(:send_email).with(approved_request_email_hash)
+      email_response_notification = assigns(:email_response_notification)
+      email_response = notify_test_client.get_notification(email_response_notification.id)
+
+      expect(email_response.email_address).to eq(user.email)
+      expect(email_response.subject).to eq("GOV.UK Holiday Logger – Annual Leave Request Approved")
+      expect(response).to redirect_to(confirm_annual_leave_request_approval_path)
     end
 
-    it "sends an email to the line report when status is updated to 'denied'" do
+    it "sends an email to the line report and redirects to confirmatioon page when status is updated to 'denied'" do
       patch :update_status, params: {
         annual_leave_request_id: leave_request.id,
         annual_leave_request: {
@@ -107,20 +95,13 @@ RSpec.describe AnnualLeaveRequestsController do
           denial_reason: "some valid reason",
         },
       }
-      leave_request.reload
-      denied_request_email_hash = {
-        email_address: user.email,
-        template_id: "ec9035df-9c98-4e0e-8826-47768c311745",
-        personalisation: {
-          line_manager_name: "#{line_manager.given_name} #{line_manager.family_name}",
-          name: "#{user.given_name} #{user.family_name}",
-          date_from: leave_request.date_from.to_fs(:rfc822),
-          date_to: leave_request.date_to.to_fs(:rfc822),
-          denial_reason: leave_request.denial_reason,
-        },
-      }
 
-      expect(notify_fake_client).to have_received(:send_email).with(denied_request_email_hash)
+      email_response_notification = assigns(:email_response_notification)
+      email_response = notify_test_client.get_notification(email_response_notification.id)
+
+      expect(email_response.email_address).to eq(user.email)
+      expect(email_response.subject).to eq("GOV.UK Holiday Logger – Annual Leave Request Denied")
+      expect(response).to redirect_to(confirm_annual_leave_request_denial_path)
     end
   end
 end

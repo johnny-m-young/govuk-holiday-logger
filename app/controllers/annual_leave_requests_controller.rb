@@ -1,3 +1,5 @@
+require "status_update"
+
 class AnnualLeaveRequestsController < ApplicationController
   def new
     @annual_leave_request = AnnualLeaveRequest.new
@@ -13,7 +15,7 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = current_user.annual_leave_requests.build(annual_leave_request_params)
 
     if @annual_leave_request.save
-      helpers.send_new_request_email(@annual_leave_request)
+      @email_response_notification = notify_client.send_email(new_request_email_hash)
       redirect_to annual_leave_request_confirmation_path
     else
       render "new"
@@ -37,11 +39,10 @@ class AnnualLeaveRequestsController < ApplicationController
     @annual_leave_request = line_reports_leave_requests.find(params[:annual_leave_request_id])
 
     if @annual_leave_request.update(annual_leave_request_params)
-      helpers.send_status_updated_email(@annual_leave_request)
-      redirect_to status_update_confirmation_page
+      @email_response_notification = notify_client.send_email(status_update.email_hash)
+      redirect_to status_update.confirmation_page_path
     else
-      render "approve" if annual_leave_request_params[:status] == "approved"
-      render "deny" if annual_leave_request_params[:status] == "denied"
+      render status_update.action
     end
   end
 
@@ -63,12 +64,38 @@ private
     params.require(:annual_leave_request).permit(:date_from, :date_to, :days_required, :status, :confirm_approval, :denial_reason)
   end
 
-  def status_update_confirmation_page
-    case annual_leave_request_params[:status]
+  def status_update
+    case @annual_leave_request.status
     when "approved"
-      confirm_annual_leave_request_approval_path
+      ApprovedStatusUpdate
     when "denied"
-      confirm_annual_leave_request_denial_path
-    end
+      DeniedStatusUpdate
+    end.new(@annual_leave_request)
+  end
+
+  def new_request_email_hash
+    {
+      email_address: line_manager.email,
+      template_id: "1587d50b-c12e-4698-b10e-cf414de26f36",
+      personalisation: {
+        line_manager_name: "#{line_manager.given_name} #{line_manager.family_name}",
+        name: "#{user.given_name} #{user.family_name}",
+        date_from: @annual_leave_request.date_from.to_fs(:rfc822),
+        date_to: @annual_leave_request.date_to.to_fs(:rfc822),
+        days_required: @annual_leave_request.days_required,
+      },
+    }
+  end
+
+  def notify_client
+    @notify_client ||= Notifications::Client.new(ENV["NOTIFY_API_KEY"])
+  end
+
+  def line_manager
+    @annual_leave_request.user.line_manager
+  end
+
+  def user
+    @annual_leave_request.user
   end
 end
